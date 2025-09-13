@@ -20,7 +20,6 @@ $movies = [];
 
 Route::group(
     [
-        'middleware' => ['isAuth'],
         'prefix' => 'movie',
         'as' => 'movie.'
     ], function () use($movies){
@@ -40,16 +39,12 @@ Route::group(
         //     return $movies;
         // });
 
-        Route::delete('/{id}', function($id) use ($movies){
-            unset($movies[$id]);
-
-            return $movies;
-        });
+        Route::delete('/{id}', [MovieController::class, 'destroy']);
 
 
 
         //meggambil data lebih spesifik
-        Route::get('/{id}', [MovieController::class, 'show'])->middleware(['isMember']);
+        Route::get('/{id}', [MovieController::class, 'show']);
 
 
 

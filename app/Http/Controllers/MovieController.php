@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use Illuminate\Routing\Controllers\Middleware;
 
 class MovieController extends Controller
 {
@@ -18,6 +19,13 @@ class MovieController extends Controller
 
             }
 
+    }
+
+    public static function middleware(){
+       return[
+        'isAuth',
+        new Middleware('isMember', only:['show'])
+       ];
     }
 
     public function index(){
@@ -46,6 +54,11 @@ class MovieController extends Controller
 
     // return hanya movie yang baru diupdate
     return $this->movies[$id];
+    }
+
+    public function destroy($id){
+        unset($this->movies[$id]);
+        return $this->movies;
     }
 
 }
